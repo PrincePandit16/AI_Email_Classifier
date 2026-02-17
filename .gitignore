@@ -1,0 +1,13 @@
+# Virtual Environment
+venv/
+.env/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Streamlit secrets (NEVER upload this)
+.streamlit/secrets.toml
+
+# Mac system files
+.DS_Store
