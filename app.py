@@ -6,7 +6,112 @@ from datetime import datetime, timedelta
 import numpy as np
 import joblib
 import re
+import random
 from pathlib import Path
+
+# Example data for randomized selection
+EMAIL_EXAMPLES = [
+    {
+        "sender": "angry.customer@example.com",
+        "subject": "Terrible product - Refund needed!",
+        "text": "I am extremely disappointed with your service. The product stopped working after just 2 days. I want a full refund immediately! This is unacceptable."
+    },
+    {
+        "sender": "tech.guru@devmail.com",
+        "subject": "API Integration Issue",
+        "text": "Hello, I'm having trouble connecting to your REST API. I keep getting a 403 error even though my token is valid. Can someone from the technical team help me debug this?"
+    },
+    {
+        "sender": "win.big@lottery-winner.net",
+        "subject": "CONGRATULATIONS! You won $10,000,000!!",
+        "text": "Dear lucky user, you have been selected as the winner of our international sweepstakes! To claim your prize, please click the link below and provide your bank details immediately."
+    },
+    {
+        "sender": "happy.user@gmail.com",
+        "subject": "Great tool! Thanks for the help",
+        "text": "I just wanted to say thank you for the wonderful service. The new update is amazing and has helped our team stay organized. Keep up the great work!"
+    },
+    {
+        "sender": "puzzled.clerk@office.com",
+        "subject": "Meeting room query",
+        "text": "Hi, just checking if conference room B is available for our 3 PM standup today. I tried to book it on the system but it seems to be showing a conflict."
+    },
+    {
+        "sender": "frustrated.buyer@shopping.com",
+        "subject": "Order #4592 - Item missing or broken",
+        "text": "I received my order today, but two of the items were completely smashed, and one was missing entirely. This is the third time this has happened. Please resolve this as soon as possible."
+    },
+    {
+        "sender": "sysadmin@enterprise.com",
+        "subject": "Urgent: Server Downtime Notification",
+        "text": "Our monitoring system indicates that the production server in the East region is currently unresponsive. We are investigating a potential hardware failure. Please stand by for updates."
+    },
+    {
+        "sender": "support.seeker@helpdesk.org",
+        "subject": "Password Reset Not Working",
+        "text": "I tried to reset my password multiple times, but I am not receiving the recovery email in my inbox or spam folder. Can you please manually reset it or check if my account is locked?"
+    },
+    {
+        "sender": "marketing.pro@leads-gen.biz",
+        "subject": "Special Offer: Boost your sales by 200%",
+        "text": "Hello! We noticed your website could use some SEO optimization. Our team specializes in driving high-intent traffic to businesses like yours. Reply 'YES' for a free audit!"
+    },
+    {
+        "sender": "curious.john@provider.net",
+        "subject": "Question about billing cycle",
+        "text": "I noticed a small discrepancy in my last invoice. Can you explain why the service tax was calculated differently this month? I just want to make sure I understand the billing correctly."
+    },
+    {
+        "sender": "upset.traveler@airways.com",
+        "subject": "Lost Luggage - Reference #XJ992",
+        "text": "My suitcase did not arrive on flight AI202 yesterday. I've already filed a report at the airport but haven't heard back. This is extremely frustrating as I have important documents inside."
+    },
+    {
+        "sender": "ux.designer@creative.co",
+        "subject": "Feedback on new dashboard layout",
+        "text": "The new analytics dashboard looks much cleaner! One small suggestion: adding a dark mode toggle would really help users who work late at night. Otherwise, great job on the update."
+    },
+    {
+        "sender": "career.agent@hiring-now.com",
+        "subject": "Urgent Job Opportunity: $5000/week from home",
+        "text": "Are you looking for a flexible job? Our company is hiring remote workers for simple data entry tasks. No experience needed. Click now to register and start earning today!"
+    },
+    {
+        "sender": "mobile.user@appstore.com",
+        "subject": "App keeps crashing on iOS 17",
+        "text": "Since the last update, the app crashes every time I try to upload a photo. I've tried reinstalling but the issue persists. Can you check if this is a known bug?"
+    },
+    {
+        "sender": "logistics.manager@fulfillment.com",
+        "subject": "Shipping delay - Order #88219",
+        "text": "I am writing to express my frustration regarding the delay in my delivery. It has been two weeks and the tracking still hasn't updated. I need these materials for a project tomorrow!"
+    },
+    {
+        "sender": "talent.scout@tech-stars.io",
+        "subject": "Interview Request: Senior Developer Role",
+        "text": "Hi, we were impressed by your profile on LinkedIn and would like to invite you for a preliminary interview. Are you available this Thursday at 10 AM for a brief call?"
+    },
+    {
+        "sender": "power.user@software-pro.com",
+        "subject": "How to export data as JSON?",
+        "text": "I'm trying to find the option to export my reports in JSON format instead of CSV. Is this feature currently available, or is it hidden somewhere in the settings menu?"
+    },
+    {
+        "sender": "security.dept@bank-verify.com",
+        "subject": "UNAUTHORIZED ACCESS ALERT: Secure your account",
+        "text": "We detected an unusual login attempt on your account from an unknown device in a different country. Please verify your identity immediately by clicking the secure link below."
+    },
+    {
+        "sender": "doc.reader@learning.org",
+        "subject": "Clarification on API Documentation",
+        "text": "The documentation for the authentication endpoint is a bit confusing. It's not clear if the bearer token needs to be prefixed with 'Bearer' or not. A small code example would be very helpful!"
+    },
+    {
+        "sender": "dissappointed.guest@hotel-resort.com",
+        "subject": "Worst stay ever - Room 402",
+        "text": "The air conditioning in my room was broken the entire night, and the staff was very unhelpful. I expect a significant discount on my bill for the inconvenience caused."
+    }
+]
 
 # Page configuration
 st.set_page_config(
@@ -369,13 +474,11 @@ elif page == "📧 Classify Email":
         st.session_state.email_text = ""
 
     def load_example_data():
-        st.session_state.sender = "angry.customer@example.com"
-        st.session_state.subject = "Terrible product - Refund needed!"
-        st.session_state.email_text = (
-            "I am extremely disappointed with your service. "
-            "The product stopped working after just 2 days. "
-            "I want a full refund immediately! This is unacceptable."
-        )
+        """Pick a random example from the pool and update session state"""
+        example = random.choice(EMAIL_EXAMPLES)
+        st.session_state.sender = example["sender"]
+        st.session_state.subject = example["subject"]
+        st.session_state.email_text = example["text"]
 
     col1, col2 = st.columns([2, 1])
 
@@ -768,4 +871,3 @@ with col1:
     st.caption("🤖 Powered by SVM Machine Learning")
 with col2:
     st.caption("📧 Enterprise Email Classifier")
-
