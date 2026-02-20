@@ -340,7 +340,7 @@ with st.sidebar:
 
 # Main content
 if page == "🏠 Dashboard":
-    st.title("📊 Email Classification Dashboard")
+    st.title("Email Classification Dashboard")
     st.markdown("### Real-time insights powered by AI")
     
     # Metrics row
@@ -462,7 +462,7 @@ if page == "🏠 Dashboard":
 
 elif page == "📧 Classify Email":
 
-    st.title("📧 Classify New Email")
+    st.title("Classify New Email")
     st.markdown("### Analyze emails with AI-powered classification")
 
 
@@ -621,7 +621,7 @@ elif page == "📧 Classify Email":
             st.info("No emails classified yet")
 
 elif page == "📊 Analytics":
-    st.title("📊 Advanced Analytics")
+    st.title("Advanced Analytics")
     st.markdown("### Deep insights into email patterns")
     
     if len(st.session_state.email_history) > 0:
@@ -696,7 +696,7 @@ elif page == "📊 Analytics":
         st.image("https://via.placeholder.com/800x400/667eea/ffffff?text=Analytics+will+appear+here+after+classifying+emails", use_container_width=True)
 
 else:  # Model Info
-    st.title("📚 Model Information")
+    st.title("Model Information")
     st.markdown("### About the Email Classification System")
     
     col1, col2 = st.columns(2)
