@@ -1,4 +1,5 @@
 # AI Email Classifier 📧🤖
+![License](https://img.shields.io/badge/License-MIT-green)
 
 **Live Demo:** https://aiemailclassifier.streamlit.app/
 
@@ -148,3 +149,22 @@ git commit -m "Add new feature"
 git push origin feature-name
 ```
 5. 🔁 Open a Pull Request
+
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License** — see the LICENSE file for details.
+
+---
+
+## 👨‍💻 Author
+
+**Prince Pandit**  
+Machine Learning Engineer | AI Developer  
+
+- GitHub: https://github.com/PrincePandit16  
+- LinkedIn: https://www.linkedin.com/in/prince200
+
+---
